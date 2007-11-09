@@ -6,7 +6,7 @@
 " Last change:  2007 Nov 10
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.2 2007-11-10 04:00:59+03 slobin Exp $
+" $Id: newlisp.vim,v 1.3 2007-11-10 06:45:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -19,10 +19,11 @@
 " * All built-in symbols are in the same class (Statement); functions,
 "   definitions, macros and control structures aren't distinguished.
 " 
-" * Superfluous right parentheses are marked as errors, left aren't.
+" * Unbalanced right parentheses are marked as errors, left aren't.
 " 
-" * Characters ' (apostrophe), : (colon) and , (comma) aren't checked
-"   for their special syntax yet. More smart tests are on their way.
+" * Characters ' (apostrophe), : (colon) and , (comma) are highlighted
+"   but not checked for their special syntax yet. More smart tests are
+"   on their way.
 "
 " * Brackets [ ] and braces { } are used by newLISP as the alternate
 "   string delimiters. Although, when they doesn't fit into delimiter
@@ -53,7 +54,11 @@ syntax case match
 
 setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 
-syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
+syn region newlispComment oneline start="[;#]" end="$" contains=newlispDocKeyword,newlispDocHTMLTag,newlispDocHTMLEntity,newlispTodo,@Spell
+syn match newlispDocKeyword "[;#]\s\+@\w\+" contains=newlispCommentLeader,@Spell contained
+syn match newlispCommentLeader "[;#]\s\+" contained
+syn match newlispDocHTMLTag "<\/\=\w\+>" contained
+syn match newlispDocHTMLEntity "&\w\+;" contained
 syn keyword newlispTodo FIXME TODO XXX contained
 
 syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=TOP,newlispParenError
@@ -80,6 +85,8 @@ syn match newlispBracketError "[][}{]"
 
 syn region newlispStringBraced start="{" end="}" contains=newlispStringBraced
 syn region newlispStringTexted start="\[text\]" end="\[\/text\]"
+
+syn match newlispMagicCharacter "[':,]"
 
 " This keyword list is based on newLISP v.9.2.4 (symbols) output.
 
@@ -121,6 +128,8 @@ syn keyword newlispBuiltin  xml-parse xml-type-tags zero? \| ~
 
 syn keyword newlispBoolean nil true
 
+hi def link newlispCommentLeader newlispComment
+
 hi def link newlispParenError newlispError
 hi def link newlispNumberError newlispError
 hi def link newlispSpecialError newlispError
@@ -135,15 +144,19 @@ hi def link newlispStringBraced newlispString
 hi def link newlispStringTexted newlispString
 
 hi def link newlispComment Comment
+hi def link newlispDocKeyword Type
+hi def link newlispDocHTMLTag PreProc
+hi def link newlispDocHTMLEntity Special
 hi def link newlispTodo Todo
-hi def link newlispError Error
 hi def link newlispList Normal
 hi def link newlispParenthesis Delimiter
+hi def link newlispError Error
 hi def link newlispSymbol Identifier
 hi def link newlispNumber Number
 hi def link newlispFloat Float
 hi def link newlispString String
 hi def link newlispSpecial Special
+hi def link newlispMagicCharacter Type
 hi def link newlispBuiltin Statement
 hi def link newlispBoolean Boolean
 
