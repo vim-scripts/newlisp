@@ -2,14 +2,14 @@
 " Language:     newLISP
 " Maintainer:   Cyril Slobin <slobin@ice.ru>
 " URL:          http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
-" Last change:  07 Nov 2007 (90th anniversary of the Great Revolution)
+" Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
+" Last change:  2007 Nov 10
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.1+1 2007-11-07 12:52:21+03 slobin Exp $
+" $Id: newlisp.vim,v 1.2 2007-11-10 04:00:59+03 slobin Exp $
 
-" This is the alternative Vim syntax file for the newLISP language.
-" Official syntax file: http://www.newlisp.org/code/newlisp.vim.txt
-" This syntax file is not based on it (except for the inspiration).
+" This was the alternative Vim syntax file for the newLISP language.
+" Now it is the official Vim syntax file! I am a celebrity! Wow!
 
 " * " Some syntax quirks of newLISP and how this file treats them: "
 "  
@@ -56,7 +56,7 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispList start="(" end=")" contains=TOP,newlispParenError
+syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=TOP,newlispParenError
 syn match newlispParenError ")"
 
 syn match newlispSymbol "\<\k\+\>"
@@ -138,6 +138,7 @@ hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispError Error
 hi def link newlispList Normal
+hi def link newlispParenthesis Delimiter
 hi def link newlispSymbol Identifier
 hi def link newlispNumber Number
 hi def link newlispFloat Float
@@ -149,3 +150,4 @@ hi def link newlispBoolean Boolean
 let b:current_syntax = "newlisp"
 
 " vim: textwidth=70
+
