@@ -6,7 +6,7 @@
 " Last change:  2007 Nov 11
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.6 2007-11-11 00:30:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.7 2007-11-11 10:20:30+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -61,8 +61,9 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment oneline start="^;; " end="$" contains=newlispDocKeyword,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
-syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\|example\)\s"ms=s+3,me=e-1 contained
+syn region newlispDocComment oneline start="^;; " end="$" contains=newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
+syn match newlispDocExample "^;;\s@example$"ms=s+3 contained
 syn match newlispDocLink "\s@link\s"ms=s+1,me=e-1 contained
 syn match newlispDocItalic "<[^>]\+>"ms=s+1,me=e-1 contained
 syn match newlispDocMonospace "'[^']\+'"ms=s+1,me=e-1 contained
@@ -159,6 +160,7 @@ hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispDocComment Comment
 hi def link newlispDocKeyword Type
+hi def link newlispDocExample Type
 hi def link newlispDocLink Type
 hi def link newlispDocItalic CommentItalic
 hi def link newlispDocMonospace CommentUnderlined
