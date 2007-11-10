@@ -3,10 +3,10 @@
 " Maintainer:   Cyril Slobin <slobin@ice.ru>
 " URL:          http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2007 Nov 10
+" Last change:  2007 Nov 11
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.5 2007-11-10 11:22:45+03 slobin Exp $
+" $Id: newlisp.vim,v 1.6 2007-11-11 00:30:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -180,15 +180,19 @@ hi def link newlispColon Type
 hi def link newlispComma Type
 hi def link newlispBoolean Boolean
 
-function s:color(where, what)
+function! s:color_of(where, what)
   let val = synIDattr(hlID("Comment"), a:what, a:where)
   return val == "" || val == -1 ? "" : printf(" %s%s=%s", a:where, a:what, val)
 endfunction
 
-let s:comment_colors =  s:color("cterm", "fg") . s:color("cterm", "bg") . s:color("gui", "fg") . s:color("gui", "bg")
+function! s:set_colors()
+  let colors =  s:color_of("cterm", "fg") . s:color_of("cterm", "bg") . s:color_of("gui", "fg") . s:color_of("gui", "bg")
+  exec "hi CommentItalic term=italic cterm=italic gui=italic" . colors
+  exec "hi CommentUnderlined term=underline cterm=underline gui=underline" . colors
+endfunction
 
-exec "hi CommentItalic term=italic cterm=italic gui=italic" . s:comment_colors
-exec "hi CommentUnderlined term=underline cterm=underline gui=underline" . s:comment_colors
+au ColorScheme <buffer> call s:set_colors()
+call s:set_colors()
 
 let b:current_syntax = "newlisp"
 
