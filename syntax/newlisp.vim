@@ -6,7 +6,7 @@
 " Last change:  2007 Nov 10
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.4 2007-11-10 09:45:36+03 slobin Exp $
+" $Id: newlisp.vim,v 1.5 2007-11-10 11:22:45+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -21,9 +21,12 @@
 " 
 " * Unbalanced right parentheses are marked as errors, left aren't.
 " 
-" * Characters ' (apostrophe), : (colon) and , (comma) are highlighted
-"   but not checked for their special syntax yet. More smart tests are
-"   on their way.
+" * Special syntax for : character (colon) is underway, meantime it is
+"   just highlighted and not checked otherwise.
+"
+" * Quoting character ' (apostrophe) is allowed anywhere, even before
+"   closing parenthesis. Interpreter uses it this way, this file just
+"   does the same.
 "
 " * Brackets [ ] and braces { } are used by newLISP as the alternate
 "   string delimiters. Although, when they doesn't fit into delimiter
@@ -70,6 +73,10 @@ syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=
 syn match newlispParenError ")"
 
 syn match newlispSymbol "\<\k\+\>"
+
+syn match newlispQuote "'" nextgroup=newlispQuoteJoiner,newlispQuote,newlispQuotedSymbol
+syn match newlispQuoteJoiner "\s\+" nextgroup=newlispQuote,newlispQuotedSymbol contained
+syn match newlispQuotedSymbol "\<\([+-]\=\d\)\@!\k\+\>" contained
 
 syn match newlispNumberError "\<[+-]\=\d\k\+\>"
 syn match newlispNumberDec "\<[+-]\=[1-9]\d*\>"
@@ -130,10 +137,10 @@ syn keyword newlispBuiltin trim true true? unify unique unless unpack until uppe
 syn keyword newlispBuiltin when while write-buffer write-char write-file write-line xml-error 
 syn keyword newlispBuiltin xml-parse xml-type-tags zero? \| ~
 
-syn match newlispMagicCharacter "[':,]"
-syn keyword newlispBoolean nil true
+syn match newlispColon ":"
+syn match newlispComma ","
 
-hi def link newlispCommentLeader newlispComment
+syn keyword newlispBoolean nil true
 
 hi def link newlispParenError newlispError
 hi def link newlispNumberError newlispError
@@ -161,12 +168,16 @@ hi def link newlispList Normal
 hi def link newlispParenthesis Delimiter
 hi def link newlispError Error
 hi def link newlispSymbol Identifier
+hi def link newlispQuote Type
+hi def link newlispQuoteJoiner Normal
+hi def link newlispQuotedSymbol Type
 hi def link newlispNumber Number
 hi def link newlispFloat Float
 hi def link newlispString String
 hi def link newlispSpecial Special
-hi def link newlispMagicCharacter Type
 hi def link newlispBuiltin Statement
+hi def link newlispColon Type
+hi def link newlispComma Type
 hi def link newlispBoolean Boolean
 
 function s:color(where, what)
