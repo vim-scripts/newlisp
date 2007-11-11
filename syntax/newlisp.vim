@@ -3,10 +3,10 @@
 " Maintainer:   Cyril Slobin <slobin@ice.ru>
 " URL:          http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2007 Nov 11
+" Last change:  2007 Nov 12
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.7 2007-11-11 10:20:30+03 slobin Exp $
+" $Id: newlisp.vim,v 1.8 2007-11-12 10:00:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -65,8 +65,8 @@ syn region newlispDocComment oneline start="^;; " end="$" contains=newlispDocKey
 syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
 syn match newlispDocExample "^;;\s@example$"ms=s+3 contained
 syn match newlispDocLink "\s@link\s"ms=s+1,me=e-1 contained
-syn match newlispDocItalic "<[^>]\+>"ms=s+1,me=e-1 contained
-syn match newlispDocMonospace "'[^']\+'"ms=s+1,me=e-1 contained
+syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
+syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
 syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|br\|pre\|center\|li\|ul\|blockquote\)>" contained
 syn match newlispDocHTMLEntity "&\w\+;" contained
 
