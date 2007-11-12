@@ -6,7 +6,7 @@
 " Last change:  2007 Nov 12
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.8 2007-11-12 10:00:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.9 2007-11-12 16:51:24+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -18,8 +18,6 @@
 " 
 " * All built-in symbols are in the same class (Statement); functions,
 "   definitions, macros and control structures aren't distinguished.
-" 
-" * Unbalanced right parentheses are marked as errors, left aren't.
 " 
 " * Special syntax for : character (colon) is underway, meantime it is
 "   just highlighted and not checked otherwise.
@@ -70,10 +68,12 @@ syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
 syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|br\|pre\|center\|li\|ul\|blockquote\)>" contained
 syn match newlispDocHTMLEntity "&\w\+;" contained
 
-syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=TOP,newlispParenError
-syn match newlispParenError ")"
+syn cluster newlispListContent contains=TOP,newlispRightParenError
+syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=@newlispListContent,newlispListError
+syn region newlispListError matchgroup=newlispLeftParenError start="^(" matchgroup=newlispParenthesis end=")" contains=@newlispListContent,newlispListError contained
+syn match newlispRightParenError ")"
 
-syn match newlispSymbol "\<\k\+\>"
+syn match newlispSymbol "\<\([+-]\=\d\)\@!\k\+\>"
 
 syn match newlispQuote "'" nextgroup=newlispQuoteJoiner,newlispQuote,newlispQuotedSymbol
 syn match newlispQuoteJoiner "\s\+" nextgroup=newlispQuote,newlispQuotedSymbol contained
@@ -143,7 +143,8 @@ syn match newlispComma ","
 
 syn keyword newlispBoolean nil true
 
-hi def link newlispParenError newlispError
+hi def link newlispLeftParenError newlispError
+hi def link newlispRightParenError newlispError
 hi def link newlispNumberError newlispError
 hi def link newlispSpecialError newlispError
 hi def link newlispBracketError newlispError
@@ -168,6 +169,7 @@ hi def link newlispDocHTMLTag Statement
 hi def link newlispDocHTMLEntity Special
 hi def link newlispList Normal
 hi def link newlispParenthesis Delimiter
+hi def link newlispNestedList Normal
 hi def link newlispError Error
 hi def link newlispSymbol Identifier
 hi def link newlispQuote Type
