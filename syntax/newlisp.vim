@@ -3,10 +3,10 @@
 " Maintainer:   Cyril Slobin <slobin@ice.ru>
 " URL:          http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2007 Nov 12
+" Last change:  2007 Nov 23
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.9 2007-11-12 16:51:24+03 slobin Exp $
+" $Id: newlisp.vim,v 1.10 2007-11-23 21:09:12+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -26,13 +26,6 @@
 "   closing parenthesis. Interpreter uses it this way, this file just
 "   does the same.
 "
-" * Brackets [ ] and braces { } are used by newLISP as the alternate
-"   string delimiters. Although, when they doesn't fit into delimiter
-"   syntax, they treated by interpreter as the ordinary characters.
-"   E.g. {string} is a string while string} is symbol, or [text] is
-"   a string delimiter while text] is a symbol. Such a symbols are
-"   rather typos than someones intent, so they are marked as errors.
-" 
 " * newLISP interpreter doesn't insist that numbers must be separated
 "   from the following numbers or symbols. E.g. the sequence 1.2.3e4e5
 "   is valid and equal to three tokens 1.2 .3e4 e5. Such a monster is
@@ -44,9 +37,32 @@
 "   string "a\b" is equal to the string "ab". Again, this is rather
 "   a typo than someones intent, so it is marked as an error.
 "
+" * Brackets [ ] and braces { } are used by newLISP as the alternate
+"   string delimiters. Although, when they doesn't fit into delimiter
+"   syntax, they treated by interpreter as the ordinary characters.
+"   E.g. {string} is a string while string} is symbol, or [text] is
+"   a string delimiter while text] is a symbol. Such a symbols are
+"   rather typos than someones intent, so they are marked as errors.
+" 
+" * The highlighting of errors can be disabled on case-by-case basis.
+"   To disable certain class of errors, assign to the global variable
+"   g:newlisp_noerror a string containing the following digits:
+"
+"     1 - for nested left parenthesis in the first column,
+"     2 - for unbalanced right parentheses,
+"     3 - for ill-formed numbers,
+"     4 - for illegal escape sequences in strings,
+"     5 - for illegal brackets and braces.
+"
+"   For example, the following line in your .vimrc
+"
+"     let g:newlisp_noerror = "12345"
+"
+"   will disable the highlighting of any errors.
+"
 " * This syntax file is not compatible with Vim version 5.x and elder.
 "   Where have you dug them out? In fact I haven't tested it even with
-"   version 6.x -- I all do my development with 7.1.130.
+"   version 6.x - I all do my development with 7.1.130.
 
 if exists("b:current_syntax")
   finish
@@ -59,9 +75,10 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment oneline start="^;; " end="$" contains=newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
 syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
-syn match newlispDocExample "^;;\s@example$"ms=s+3 contained
+syn region newlispDocExample start="^;;\s@example$" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocExampleKeyword  contained
+syn match newlispDocExampleKeyword "^;;\s@example$"ms=s+3 contained
 syn match newlispDocLink "\s@link\s"ms=s+1,me=e-1 contained
 syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
 syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
@@ -143,11 +160,23 @@ syn match newlispComma ","
 
 syn keyword newlispBoolean nil true
 
-hi def link newlispLeftParenError newlispError
-hi def link newlispRightParenError newlispError
-hi def link newlispNumberError newlispError
-hi def link newlispSpecialError newlispError
-hi def link newlispBracketError newlispError
+if !exists("g:newlisp_noerror")
+  let g:newlisp_noerror = ""
+endif
+
+function! s:error_color(digit, err, good)
+  if g:newlisp_noerror =~ a:digit
+    exec "hi def link" a:err a:good
+  else
+    exec "hi def link" a:err "newlispError"
+  endif
+endfunction
+
+call s:error_color("1", "newlispLeftParenError", "newlispParenthesis")
+call s:error_color("2", "newlispRightParenError", "newlispParenthesis")
+call s:error_color("3", "newlispNumberError", "newlispSymbol")
+call s:error_color("4", "newlispSpecialError", "newlispString")
+call s:error_color("5", "newlispBracketError", "newlispSymbol")
 
 hi def link newlispNumberDec newlispNumber
 hi def link newlispNumberOct newlispNumber
@@ -161,7 +190,8 @@ hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispDocComment Comment
 hi def link newlispDocKeyword Type
-hi def link newlispDocExample Type
+hi def link newlispDocExample Comment
+hi def link newlispDocExampleKeyword Type
 hi def link newlispDocLink Type
 hi def link newlispDocItalic CommentItalic
 hi def link newlispDocMonospace CommentUnderlined
@@ -201,4 +231,3 @@ call s:set_colors()
 let b:current_syntax = "newlisp"
 
 " vim: textwidth=70
-
