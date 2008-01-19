@@ -1,17 +1,18 @@
 " Vim syntax file
 " Language:     newLISP
 " Maintainer:   Cyril Slobin <slobin@ice.ru>
-" URL:          http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
+" URL:          http://www.vim.org/scripts/script.php?script_id=2067
+" Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2007 Nov 23
+" Last change:  2008 Jan 19
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.10 2007-11-23 21:09:12+03 slobin Exp $
+" $Id: newlisp.vim,v 1.12 2008-01-19 18:25:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
 
-" * " Some syntax quirks of newLISP and how this file treats them: "
+" *** Some syntax quirks of newLISP and how this file treats them: ***
 "  
 " * In the following text, the word "character" refers to the ASCII
 "   characters, and the word "symbol" to the lisp symbols (= atoms).
@@ -62,7 +63,7 @@
 "
 " * This syntax file is not compatible with Vim version 5.x and elder.
 "   Where have you dug them out? In fact I haven't tested it even with
-"   version 6.x - I all do my development with 7.1.130.
+"   version 6.x - I all do my development with 7.1.175.
 
 if exists("b:current_syntax")
   finish
@@ -75,7 +76,7 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
 syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
 syn region newlispDocExample start="^;;\s@example$" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocExampleKeyword  contained
 syn match newlispDocExampleKeyword "^;;\s@example$"ms=s+3 contained
@@ -116,44 +117,39 @@ syn match newlispBracketError "[][}{]"
 syn region newlispStringBraced start="{" end="}" contains=newlispStringBraced
 syn region newlispStringTexted start="\[text\]" end="\[\/text\]"
 
-" This keyword list is based on newLISP v.9.2.5 (symbols) output.
+" This keywords list is based on newLISP v.9.2.16 primes.h file 
 
-syn keyword newlispBuiltin ! != $ $0 $1 $10 $11 $12 $13 $14 $15 $2 $3 $4 $5 $6 $7 $8 $9 $args 
-syn keyword newlispBuiltin $idx $main-args % & * + - / : < << <= = > >= >> ? @ MAIN NaN? ^ 
-syn keyword newlispBuiltin abs acos acosh add address amb and append append-file apply args 
-syn keyword newlispBuiltin array array-list array? asin asinh assoc atan atan2 atanh atom? 
-syn keyword newlispBuiltin base64-dec base64-enc bayes-query bayes-train begin beta betai bind 
-syn keyword newlispBuiltin binomial callback case catch ceil change-dir char chop clean close 
-syn keyword newlispBuiltin command-line cond cons constant context context? copy-file cos cosh 
-syn keyword newlispBuiltin count cpymem crc32 crit-chi2 crit-z current-line curry date date-value 
-syn keyword newlispBuiltin debug dec def-new default define define-macro delete delete-file 
-syn keyword newlispBuiltin delete-url destroy det device difference directory directory? div 
-syn keyword newlispBuiltin do-until do-while doargs dolist dostring dotimes dotree dump dup 
-syn keyword newlispBuiltin empty? encrypt ends-with env erf error-event error-number error-text 
-syn keyword newlispBuiltin eval eval-string exec exists exit exp expand explode factor fft 
-syn keyword newlispBuiltin file-info file? filter find find-all first flat float float? floor 
-syn keyword newlispBuiltin flt for for-all format fv gammai gammaln gcd get-char get-float 
-syn keyword newlispBuiltin get-int get-long get-string get-url global global? if ifft import 
-syn keyword newlispBuiltin inc index int integer integer? intersect invert irr join lambda? 
-syn keyword newlispBuiltin last legal? length let letex letn list list? load local log lookup 
-syn keyword newlispBuiltin lower-case macro? main-args make-dir map mat match max member min 
-syn keyword newlispBuiltin mod mul multiply name net-accept net-close net-connect net-error 
-syn keyword newlispBuiltin net-eval net-listen net-local net-lookup net-peek net-peer net-receive 
-syn keyword newlispBuiltin net-receive-from net-receive-udp net-select net-send net-send-to 
-syn keyword newlispBuiltin net-send-udp net-service net-sessions new nil nil? normal not now 
-syn keyword newlispBuiltin nper npv nth nth-set null? number? open or ostype pack parse pipe 
-syn keyword newlispBuiltin pmt pop post-url pow pretty-print primitive? print println prob-chi2 
-syn keyword newlispBuiltin prob-z process protected? push put-url pv quote quote? rand random 
-syn keyword newlispBuiltin randomize read-buffer read-char read-file read-key read-line real-path 
-syn keyword newlispBuiltin ref ref-all regex remove-dir rename-file replace replace-assoc reset 
-syn keyword newlispBuiltin rest reverse rotate round save search seed seek select semaphore 
-syn keyword newlispBuiltin sequence series set set-locale set-nth setq sgn share signal silent 
-syn keyword newlispBuiltin sin sinh sleep slice sort source sqrt starts-with string string? 
-syn keyword newlispBuiltin sub swap sym symbol? symbols sys-error sys-info tan tanh throw throw-error 
-syn keyword newlispBuiltin time time-of-day timer title-case trace trace-highlight transpose 
-syn keyword newlispBuiltin trim true true? unify unique unless unpack until upper-case uuid 
-syn keyword newlispBuiltin when while write-buffer write-char write-file write-line xml-error 
-syn keyword newlispBuiltin xml-parse xml-type-tags zero? \| ~
+syn keyword newlispFunction ! != $ % & * + - / : < << <= = > >= >> NaN? ^ abs acos acosh add address amb and 
+syn keyword newlispFunction append append-file apply args array array-list array? asin asinh assoc assoc-set 
+syn keyword newlispFunction atan atan2 atanh atom? base64-dec base64-enc bayes-query bayes-train begin beta 
+syn keyword newlispFunction betai bind binomial callback case catch ceil change-dir char chop clean close command-line 
+syn keyword newlispFunction cond cons constant context context? copy-file cos cosh count cpymem crc32 crit-chi2 
+syn keyword newlispFunction crit-z current-line curry date date-value debug dec def-new default define define-macro 
+syn keyword newlispFunction delete delete-file delete-url destroy det device difference directory directory? 
+syn keyword newlispFunction div do-until do-while doargs dolist dostring dotimes dotree dump dump-symbol dup 
+syn keyword newlispFunction empty? encrypt ends-with env erf error-event error-number error-text eval eval-string 
+syn keyword newlispFunction exec exists exit exp expand explode factor fft file-info file? filter find find-all 
+syn keyword newlispFunction first flat float float? floor flt for for-all fork format fv gammai gammaln gcd 
+syn keyword newlispFunction get-char get-float get-int get-long get-string get-url global global? if ifft import 
+syn keyword newlispFunction inc index int integer integer? intersect invert irr join lambda? last legal? length 
+syn keyword newlispFunction let letex letn list list? load local log lookup lower-case macro? main-args make-dir 
+syn keyword newlispFunction map mat match max member min mod mul multiply name net-accept net-close net-connect 
+syn keyword newlispFunction net-error net-eval net-listen net-local net-lookup net-peek net-peer net-ping net-receive 
+syn keyword newlispFunction net-receive-from net-receive-udp net-select net-send net-send-to net-send-udp net-service 
+syn keyword newlispFunction net-sessions new nil? normal not now nper npv nth nth-set null? number? open or 
+syn keyword newlispFunction pack parse parse-date peek pipe pmt pop post-url pow pretty-print primitive? print 
+syn keyword newlispFunction println prob-chi2 prob-z process protected? push put-url pv quote quote? rand random 
+syn keyword newlispFunction randomize read-buffer read-char read-file read-key read-line real-path ref ref-all 
+syn keyword newlispFunction ref-set regex remove-dir rename-file replace replace-assoc reset rest reverse rotate 
+syn keyword newlispFunction round save search seed seek select semaphore sequence series set set-assoc set-locale 
+syn keyword newlispFunction set-nth set-ref set-ref-all setq sgn share signal silent sin sinh sleep slice sort 
+syn keyword newlispFunction source sqrt starts-with string string? sub swap sym symbol? symbols sys-error sys-info 
+syn keyword newlispFunction tan tanh throw throw-error time time-of-day timer title-case trace trace-highlight 
+syn keyword newlispFunction transpose trim true? unicode unify unique unless unpack until upper-case utf8 utf8len 
+syn keyword newlispFunction uuid wait-pid when while write-buffer write-char write-file write-line xml-error 
+syn keyword newlispFunction xml-parse xml-type-tags zero? \| ~
+
+syn keyword newlispVariable $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
 
 syn match newlispColon ":"
 syn match newlispComma ","
@@ -209,7 +205,8 @@ hi def link newlispNumber Number
 hi def link newlispFloat Float
 hi def link newlispString String
 hi def link newlispSpecial Special
-hi def link newlispBuiltin Statement
+hi def link newlispFunction Statement
+hi def link newlispVariable Statement
 hi def link newlispColon Type
 hi def link newlispComma Type
 hi def link newlispBoolean Boolean
