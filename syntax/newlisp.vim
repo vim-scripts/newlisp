@@ -7,7 +7,7 @@
 " Last change:  2008 Feb 01
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.13 2008-02-01 18:45:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.14 2008-02-02 20:00:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -72,7 +72,7 @@ syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" cont
 syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
 syn region newlispDocExample start="^;;\s@example$" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocExampleKeyword  contained
 syn match newlispDocExampleKeyword "^;;\s@example$"ms=s+3 contained
-syn match newlispDocLink "\s@link\s"ms=s+1,me=e-1 contained
+syn match newlispDocLink "@link\s"me=e-1 contained
 syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
 syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
 syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|br\|pre\|center\|li\|ul\|blockquote\)>" contained
