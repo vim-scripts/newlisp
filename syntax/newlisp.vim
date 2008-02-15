@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Feb 01
+" Last change:  2008 Feb 16
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.14 2008-02-02 20:00:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.15 2008-02-16 08:35:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -147,6 +147,9 @@ syn keyword newlispFunction title-case trace trace-highlight transpose trim true
 syn keyword newlispFunction unique unless unpack until upper-case utf8 utf8len uuid wait-pid when
 syn keyword newlispFunction while write-buffer write-char write-file write-line xml-error xml-parse
 syn keyword newlispFunction xml-type-tags zero? \| ~
+
+syn keyword newlispFunction read
+syn keyword newlispFunction lambda
 
 syn keyword newlispVariable $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
 
