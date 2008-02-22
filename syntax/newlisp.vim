@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Feb 16
+" Last change:  2008 Feb 22
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.15 2008-02-16 08:35:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.16 2008-02-22 16:14:12+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -99,11 +99,11 @@ syn match newlispFloat "\<[+-]\=\d\+[Ee][+-]\=\d\+\>"
 syn match newlispFloat "\<[+-]\=\.\d\+\([Ee][+-]\=\d\+\)\=\>"
 syn match newlispFloat "\<[+-]\=\d\+\.\d*\([Ee][+-]\=\d\+\)\=\>"
 
-syn region newlispStringQuoted start=+"+ skip=+\\"+ end=+"+ contains=newlispSpecialError,newlispSpecial
-syn match newlispSpecialError +\\+ contained
-syn match newlispSpecial +\\["\\nrt]+ contained
-syn match newlispSpecial +\\\d\d\d+ contained
-syn match newlispSpecial +\\x\x\x+ contained
+syn region newlispStringQuoted start=+"+ skip=+\\"+ end=+"+ contains=newlispEscapeError,newlispEscape
+syn match newlispEscapeError +\\+ contained
+syn match newlispEscape +\\["\\nrt]+ contained
+syn match newlispEscape +\\\d\d\d+ contained
+syn match newlispEscape +\\x\x\x+ contained
 
 syn match newlispBracketError "[][}{]"
 
@@ -148,9 +148,9 @@ syn keyword newlispFunction unique unless unpack until upper-case utf8 utf8len u
 syn keyword newlispFunction while write-buffer write-char write-file write-line xml-error xml-parse
 syn keyword newlispFunction xml-type-tags zero? \| ~
 
-syn keyword newlispFunction read
-syn keyword newlispFunction lambda
+syn keyword newlispFunction read " introduced in newLISP 9.3.1
 
+syn keyword newlispKeyword fn lambda
 syn keyword newlispVariable $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
 
 syn match newlispColon ":"
@@ -169,7 +169,7 @@ hi def link newlispStringTexted newlispString
 hi def link newlispLeftParenError newlispError
 hi def link newlispRightParenError newlispError
 hi def link newlispNumberError newlispError
-hi def link newlispSpecialError newlispError
+hi def link newlispEscapeError newlispError
 hi def link newlispBracketError newlispError
 
 hi def link newlispComment Comment
@@ -194,8 +194,9 @@ hi def link newlispQuotedSymbol Type
 hi def link newlispNumber Number
 hi def link newlispFloat Float
 hi def link newlispString String
-hi def link newlispSpecial Special
+hi def link newlispEscape Special
 hi def link newlispFunction Statement
+hi def link newlispKeyword Statement
 hi def link newlispVariable Statement
 hi def link newlispColon Type
 hi def link newlispComma Type
