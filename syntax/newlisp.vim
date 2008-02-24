@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Feb 22
+" Last change:  2008 Feb 24
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.16 2008-02-22 16:14:12+03 slobin Exp $
+" $Id: newlisp.vim,v 1.17 2008-02-24 12:15:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -68,11 +68,10 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocKeyword,newlispDocExample,newlispDocLink,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocExample,newlispDocKeyword,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn region newlispDocExample matchgroup=newlispDocKeyword start="^;;\s@example$"ms=s+3 matchgroup=NONE end="^\(;;\(\s\|$\)\)\@!" contained
 syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
-syn region newlispDocExample start="^;;\s@example$" end="^\(;;\(\s\|$\)\)\@!" contains=newlispDocExampleKeyword  contained
-syn match newlispDocExampleKeyword "^;;\s@example$"ms=s+3 contained
-syn match newlispDocLink "@link\s"me=e-1 contained
+syn match newlispDocKeyword "@link\s"me=e-1 contained
 syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
 syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
 syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|br\|pre\|center\|li\|ul\|blockquote\)>" contained
@@ -84,10 +83,9 @@ syn region newlispListError matchgroup=newlispLeftParenError start="^(" matchgro
 syn match newlispRightParenError ")"
 
 syn match newlispSymbol "\<\([+-]\=\d\)\@!\k\+\>"
-syn match newlispSymbolSpecial "\<\([+-]\=\d\)\@!\k\+\W\>"
+syn match newlispSymbolSpecial "\<\([+-]\=\d\)\@!\k*\W\>"
 
-syn match newlispQuote "'" nextgroup=newlispQuoteJoiner,newlispQuote,newlispQuotedSymbol
-syn match newlispQuoteJoiner "\s\+" nextgroup=newlispQuote,newlispQuotedSymbol contained
+syn match newlispQuote "'" nextgroup=newlispQuote,newlispQuotedSymbol skipwhite
 syn match newlispQuotedSymbol "\<\([+-]\=\d\)\@!\k\+\>" contained
 
 syn match newlispNumberError "\<[+-]\=\d\k\+\>"
@@ -175,21 +173,17 @@ hi def link newlispBracketError newlispError
 hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispDocComment Comment
-hi def link newlispDocKeyword Type
 hi def link newlispDocExample Comment
-hi def link newlispDocExampleKeyword Type
-hi def link newlispDocLink Type
+hi def link newlispDocKeyword Type
 hi def link newlispDocItalic CommentItalic
 hi def link newlispDocMonospace CommentUnderlined
 hi def link newlispDocHTMLTag Statement
 hi def link newlispDocHTMLEntity Special
 hi def link newlispList Normal
 hi def link newlispParenthesis Delimiter
-hi def link newlispNestedList Normal
 hi def link newlispSymbol Identifier
 hi def link newlispSymbolSpecial Type
 hi def link newlispQuote Type
-hi def link newlispQuoteJoiner Normal
 hi def link newlispQuotedSymbol Type
 hi def link newlispNumber Number
 hi def link newlispFloat Float
