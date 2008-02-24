@@ -7,7 +7,7 @@
 " Last change:  2008 Feb 24
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.17 2008-02-24 12:15:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.18 2008-02-24 14:05:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -84,6 +84,7 @@ syn match newlispRightParenError ")"
 
 syn match newlispSymbol "\<\([+-]\=\d\)\@!\k\+\>"
 syn match newlispSymbolSpecial "\<\([+-]\=\d\)\@!\k*\W\>"
+syn match newlispSymbolSpecial "\<[A-Z_][0-9A-Z_]*\>"
 
 syn match newlispQuote "'" nextgroup=newlispQuote,newlispQuotedSymbol skipwhite
 syn match newlispQuotedSymbol "\<\([+-]\=\d\)\@!\k\+\>" contained
@@ -149,7 +150,7 @@ syn keyword newlispFunction xml-type-tags zero? \| ~
 syn keyword newlispFunction read " introduced in newLISP 9.3.1
 
 syn keyword newlispKeyword fn lambda
-syn keyword newlispVariable $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
+syn keyword newlispVariable ostype $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
 
 syn match newlispColon ":"
 syn match newlispComma ","
