@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Feb 24
+" Last change:  2008 Feb 28
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.18 2008-02-24 14:05:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.19 2008-02-28 21:10:00+03 slobin Exp $
 
 " This was the alternative Vim syntax file for the newLISP language.
 " Now it is the official Vim syntax file! I am a celebrity! Wow!
@@ -70,11 +70,12 @@ syn keyword newlispTodo FIXME TODO XXX contained
 
 syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocExample,newlispDocKeyword,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
 syn region newlispDocExample matchgroup=newlispDocKeyword start="^;;\s@example$"ms=s+3 matchgroup=NONE end="^\(;;\(\s\|$\)\)\@!" contained
-syn match newlispDocKeyword "^;;\s@\(module\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
+syn match newlispDocKeyword "^;;\s@\(module\|index\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
 syn match newlispDocKeyword "@link\s"me=e-1 contained
 syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
 syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
-syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|br\|pre\|center\|li\|ul\|blockquote\)>" contained
+syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|pre\|center\|li\|ul\|blockquote\)>" contained
+syn match newlispDocHTMLTag "<\(br\|hr\)\/\=>" contained
 syn match newlispDocHTMLEntity "&\w\+;" contained
 
 syn cluster newlispListContent contains=TOP,newlispRightParenError
