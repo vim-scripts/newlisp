@@ -4,13 +4,12 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Feb 28
+" Last change:  2008 Mar 30
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.19 2008-02-28 21:10:00+03 slobin Exp $
+" $Id: newlisp.vim,v 1.20 2008-03-30 10:40:00+03 slobin Exp $
 
-" This was the alternative Vim syntax file for the newLISP language.
-" Now it is the official Vim syntax file! I am a celebrity! Wow!
+" This version of the syntax file attempts to meet the newLISP v.9.3.5
 
 " *** Some syntax quirks of newLISP and how this file treats them: ***
 "  
@@ -45,13 +44,17 @@
 "   a string delimiter while text] is a symbol. Such a symbols are
 "   rather typos than someones intent, so they are marked as errors.
 " 
-" * Starting from version 1.13 of this file, the feature of selective
-"   errors disabling was itself disabled. If you want NOT to highlight
-"   nested left parenthesis in the first column, just put the line:
+" * You can disable any kind of highlighting by putting an appropriate
+"   "hi link" line into your .vimrc. Some examples:
+"
+"   To disable the highlighting of the nested left parentheses in the
+"   first column as an error:
 "
 "     hi link newlispLeftParenError newlispParenthesis
 "
-"   in your .vimrc file, similarly for all other errors.
+"   To disable the highlighting of the special symbols as special:
+"
+"     hi link newlispSymbolSpecial newlispSymbol
 "
 " * This syntax file is not compatible with Vim version 5.x and elder.
 "   Where have you dug them out? In fact I haven't tested it even with
@@ -85,7 +88,7 @@ syn match newlispRightParenError ")"
 
 syn match newlispSymbol "\<\([+-]\=\d\)\@!\k\+\>"
 syn match newlispSymbolSpecial "\<\([+-]\=\d\)\@!\k*\W\>"
-syn match newlispSymbolSpecial "\<[A-Z_][0-9A-Z_]*\>"
+syn match newlispSymbolSpecial "\<\u\k*\>"
 
 syn match newlispQuote "'" nextgroup=newlispQuote,newlispQuotedSymbol skipwhite
 syn match newlispQuotedSymbol "\<\([+-]\=\d\)\@!\k\+\>" contained
@@ -148,7 +151,7 @@ syn keyword newlispFunction unique unless unpack until upper-case utf8 utf8len u
 syn keyword newlispFunction while write-buffer write-char write-file write-line xml-error xml-parse
 syn keyword newlispFunction xml-type-tags zero? \| ~
 
-syn keyword newlispFunction read " introduced in newLISP 9.3.1
+syn keyword newlispFunction read-expr " introduced in newLISP 9.3.4
 
 syn keyword newlispKeyword fn lambda
 syn keyword newlispVariable ostype $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $main-args 
