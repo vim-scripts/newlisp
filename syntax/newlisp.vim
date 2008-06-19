@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://wagner.pp.ru/~slobin/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Jun 16
+" Last change:  2008 Jun 19
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.21 2008/06/16 16:06:08 slobin Exp $
+" $Id: newlisp.vim,v 1.22 2008/06/19 23:00:00 slobin Exp $
 
 " This version of the syntax file attempts to meet the newLISP v.9.4.0
 
@@ -217,14 +217,13 @@ function! s:set_colors()
   exec "hi CommentUnderlined term=underline cterm=underline gui=underline" . colors
 endfunction
 
-au ColorScheme <buffer> call s:set_colors()
-call s:set_colors()
-
-" Attempt to fall back to defaults when using some partially
-" compatible highlighting tool instead of genuine Vim editor.
-
-hi def link CommentItalic Comment
-hi def link CommentUnderlined Comment
+if version < 700 || exists("g:newlisp_compat")
+  hi def link CommentItalic Identifier
+  hi def link CommentUnderlined Underlined
+else
+  au ColorScheme <buffer> call s:set_colors()
+  call s:set_colors()
+endif
 
 let b:current_syntax = "newlisp"
 
