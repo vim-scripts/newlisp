@@ -4,12 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://slobin.pp.ru/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2008 Nov 26
+" Last change:  2009 Mar 20
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.24 2008/11/26 21:45:00 slobin Exp $
-
-" This syntax file attempts to meet the upcoming newLISP v10.0 release
+" $Id: newlisp.vim,v 1.25 2009/03/20 17:45:00 slobin Exp $
 
 " *** Some syntax quirks of newLISP and how this file treats them: ***
 "
@@ -60,9 +58,8 @@
 "   Where have you dug them out? It should work with Vim 6.x, although
 "   this was not heavily tested. I use Vim 7.2 for development.
 "
-" * New in this version: functions removed from upcoming 10.0 release,
-"   and debugging functions not compiled into normal release code, are
-"   highlighted in TODO colors.
+" * New in this version: better 3rd party tools compatibility (I hope),
+"   synchronized with newLISP 10.0.2 release.
 
 if exists("b:current_syntax")
   finish
@@ -117,7 +114,7 @@ syn match newlispBracketError "[][}{]"
 syn region newlispStringBraced start="{" end="}" contains=newlispStringBraced
 syn region newlispStringTexted start="\[text\]" end="\[\/text\]"
 
-" This keywords list is based on newLISP v.9.9.95 build primes.h file
+" This keywords list is based on newLISP v.10.0.2 build primes.h file
 " XXX Don't forget to remove colon ":" and escape vertical bar "|"
 
 syn keyword newlispFunction ! != $ % & * + - / < << <= = > >= >> NaN? ^ abort abs acos acosh add
@@ -146,22 +143,22 @@ syn keyword newlispFunction nth null? number? open or pack parse parse-date peek
 syn keyword newlispFunction pop-assoc post-url pow pretty-print primitive? print println prob-chi2
 syn keyword newlispFunction prob-z process prompt-event protected? push put-url pv quote quote? rand
 syn keyword newlispFunction random randomize read-buffer read-char read-expr read-file read-key
-syn keyword newlispFunction read-line real-path ref ref-all regex regex-comp remove-dir rename-file
-syn keyword newlispFunction replace reset rest reverse rotate round save search seed seek select
-syn keyword newlispFunction semaphore sequence series set set-locale set-ref set-ref-all setf setq
-syn keyword newlispFunction sgn share signal silent sin sinh sleep slice sort source spawn sqrt
-syn keyword newlispFunction starts-with string string? sub swap sym symbol? symbols sync sys-error
-syn keyword newlispFunction sys-info tan tanh throw throw-error time time-of-day timer title-case
-syn keyword newlispFunction trace trace-highlight transpose trim true? unicode unify unique unless
-syn keyword newlispFunction unpack until upper-case utf8 utf8len uuid wait-pid when while
-syn keyword newlispFunction write-buffer write-char write-file write-line xml-error xml-parse
+syn keyword newlispFunction read-line read-utf8 real-path ref ref-all regex regex-comp remove-dir
+syn keyword newlispFunction rename-file replace reset rest reverse rotate round save search seed
+syn keyword newlispFunction seek select semaphore sequence series set set-locale set-ref set-ref-all
+syn keyword newlispFunction setf setq sgn share signal silent sin sinh sleep slice sort source spawn
+syn keyword newlispFunction sqrt starts-with string string? sub swap sym symbol? symbols sync
+syn keyword newlispFunction sys-error sys-info tan tanh throw throw-error time time-of-day timer
+syn keyword newlispFunction title-case trace trace-highlight transpose trim true? unicode unify
+syn keyword newlispFunction unique unless unpack until upper-case utf8 utf8len uuid wait-pid when
+syn keyword newlispFunction while write-buffer write-char write-file write-line xml-error xml-parse
 syn keyword newlispFunction xml-type-tags zero? \| ~
 
 syn keyword newlispVariable ostype $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $it $main-args
 syn keyword newlispKeyword fn lambda
 
 syn keyword newlispObsolete assoc-set integer nth-set ref-set replace-assoc set-assoc set-nth
-syn keyword newlispDebugging estack dump-symbol
+syn keyword newlispDebugging dump-symbol
 
 syn match newlispColon ":"
 syn match newlispComma ","
@@ -214,6 +211,12 @@ hi def link newlispError Error
 " CommentItalic and CommentUnderlined groups have the same colors as
 " plain Comment, but italic and underlined respectively. Therefore we
 " need to recalculate those attributes on each colorscheme change.
+"
+" But we can't implement this for old Vim versions and semi-compatible
+" highlighting tools, so defaults are supplied as a fallback.
+
+hi link CommentItalic Identifier
+hi link CommentUnderlined Underlined
 
 function! s:color_of(where, what)
   let val = synIDattr(hlID("Comment"), a:what, a:where)
@@ -226,10 +229,7 @@ function! s:set_colors()
   exec "hi CommentUnderlined term=underline cterm=underline gui=underline" . colors
 endfunction
 
-if version < 700 || exists("g:newlisp_compat")
-  hi link CommentItalic Identifier
-  hi link CommentUnderlined Underlined
-else
+if version >= 700 && !exists("g:newlisp_compat")
   au ColorScheme <buffer> call s:set_colors()
   call s:set_colors()
 endif
