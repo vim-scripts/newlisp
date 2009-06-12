@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://slobin.pp.ru/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2009 Mar 20
+" Last change:  2009 Jun 12 (also an anniversary, but I don't care)
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.25 2009/03/20 17:45:00 slobin Exp $
+" $Id: newlisp.vim,v 1.27 2009/06/12 17:27:33 slobin Exp $
 
 " *** Some syntax quirks of newLISP and how this file treats them: ***
 "
@@ -58,8 +58,8 @@
 "   Where have you dug them out? It should work with Vim 6.x, although
 "   this was not heavily tested. I use Vim 7.2 for development.
 "
-" * New in this version: better 3rd party tools compatibility (I hope),
-"   synchronized with newLISP 10.0.2 release.
+" * New in this version: highlighting of new newlispdoc user keywords,
+"   synchronized with newLISP 10.0.8 release (intended to match 10.1).
 
 if exists("b:current_syntax")
   finish
@@ -72,8 +72,9 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocExample,newlispDocKeyword,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
+syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocExample,newlispDocUserKeyword,newlispDocKeyword,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
 syn region newlispDocExample matchgroup=newlispDocKeyword start="^;;\s@example$"ms=s+3 matchgroup=NONE end="^\(;;\(\s\|$\)\)\@!" contained
+syn match newlispDocUserKeyword "^;;\s@[a-zA-Z_-]*\s"ms=s+3,me=e-1 contained
 syn match newlispDocKeyword "^;;\s@\(module\|index\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
 syn match newlispDocKeyword "@link\s"me=e-1 contained
 syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
@@ -114,7 +115,7 @@ syn match newlispBracketError "[][}{]"
 syn region newlispStringBraced start="{" end="}" contains=newlispStringBraced
 syn region newlispStringTexted start="\[text\]" end="\[\/text\]"
 
-" This keywords list is based on newLISP v.10.0.2 build primes.h file
+" This keywords list is based on newLISP v.10.0.8 build primes.h file
 " XXX Don't forget to remove colon ":" and escape vertical bar "|"
 
 syn keyword newlispFunction ! != $ % & * + - / < << <= = > >= >> NaN? ^ abort abs acos acosh add
@@ -131,11 +132,11 @@ syn keyword newlispFunction ends-with env erf error-event error-number error-tex
 syn keyword newlispFunction eval-string exec exists exit exp expand explode factor fft file-info
 syn keyword newlispFunction file? filter find find-all first flat float float? floor flt for for-all
 syn keyword newlispFunction fork format fv gammai gammaln gcd get-char get-float get-int get-long
-syn keyword newlispFunction get-string get-url global global? if if-not ifft import inc index int
-syn keyword newlispFunction integer integer? intersect invert irr join lambda? last legal? length
-syn keyword newlispFunction let letex letn list list? load local log lookup lower-case macro?
-syn keyword newlispFunction main-args make-dir map mat match max member min mod mul multiply name
-syn keyword newlispFunction net-accept net-close net-connect net-error net-eval net-interface
+syn keyword newlispFunction get-string get-url global global? if if-not ifft import inc index inf?
+syn keyword newlispFunction int integer integer? intersect invert irr join lambda? last last-error
+syn keyword newlispFunction legal? length let letex letn list list? load local log lookup lower-case
+syn keyword newlispFunction macro? main-args make-dir map mat match max member min mod mul multiply
+syn keyword newlispFunction name net-accept net-close net-connect net-error net-eval net-interface
 syn keyword newlispFunction net-listen net-local net-lookup net-peek net-peer net-ping net-receive
 syn keyword newlispFunction net-receive-from net-receive-udp net-select net-send net-send-to
 syn keyword newlispFunction net-send-udp net-service net-sessions new nil? normal not now nper npv
@@ -151,14 +152,18 @@ syn keyword newlispFunction sqrt starts-with string string? sub swap sym symbol?
 syn keyword newlispFunction sys-error sys-info tan tanh throw throw-error time time-of-day timer
 syn keyword newlispFunction title-case trace trace-highlight transpose trim true? unicode unify
 syn keyword newlispFunction unique unless unpack until upper-case utf8 utf8len uuid wait-pid when
-syn keyword newlispFunction while write-buffer write-char write-file write-line xml-error xml-parse
-syn keyword newlispFunction xml-type-tags zero? \| ~
+syn keyword newlispFunction while write-buffer write-char write-file write-line xfer-event xml-error
+syn keyword newlispFunction xml-parse xml-type-tags zero? \| ~
 
 syn keyword newlispVariable ostype $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $it $main-args
 syn keyword newlispKeyword fn lambda
+syn keyword newlispPreloaded module
 
-syn keyword newlispObsolete assoc-set integer nth-set ref-set replace-assoc set-assoc set-nth
+syn keyword newlispObsolete assoc-set nth-set ref-set replace-assoc set-assoc set-nth
 syn keyword newlispDebugging dump-symbol
+
+" integer is still defined in 10.0.8
+syn keyword newlispObsolete integer
 
 syn match newlispColon ":"
 syn match newlispComma ","
@@ -183,6 +188,7 @@ hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispDocComment Comment
 hi def link newlispDocExample Comment
+hi def link newlispDocUserKeyword Identifier
 hi def link newlispDocKeyword Type
 hi def link newlispDocItalic CommentItalic
 hi def link newlispDocMonospace CommentUnderlined
@@ -201,6 +207,7 @@ hi def link newlispEscape Special
 hi def link newlispFunction Statement
 hi def link newlispVariable Statement
 hi def link newlispKeyword Statement
+hi def link newlispPreloaded Statement
 hi def link newlispObsolete Todo
 hi def link newlispDebugging Todo
 hi def link newlispColon Type
