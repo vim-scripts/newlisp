@@ -4,10 +4,10 @@
 " URL:          http://www.vim.org/scripts/script.php?script_id=2067
 " Another URL:  http://slobin.pp.ru/vim/syntax/newlisp.vim
 " Started at:   2007 Nov 07 (The Great Revolution 90th Anniversary)
-" Last change:  2010 May 09 (The Great Victory 65th Anniversary)
+" Last change:  2010 Oct 07
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.31 2010/05/10 00:45:56 slobin Exp $
+" $Id: newlisp.vim,v 1.32 2010/10/07 06:17:38 slobin Exp $
 
 " *** Some syntax quirks of newLISP and how this file treats them: ***
 "
@@ -72,16 +72,16 @@ setlocal iskeyword=33,36-38,42,43,45-47,48-57,60-64,@,92,94,_,124,126
 syn region newlispComment oneline start="[;#]" end="$" contains=newlispTodo,@Spell
 syn keyword newlispTodo FIXME TODO XXX contained
 
-syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocExample,newlispDocUserKeyword,newlispDocKeyword,newlispDocItalic,newlispDocMonospace,newlispDocHTMLTag,newlispDocHTMLEntity,@Spell
-syn region newlispDocExample matchgroup=newlispDocKeyword start="^;;\s@example$"ms=s+3 matchgroup=NONE end="^\(;;\(\s\|$\)\)\@!" contained
-syn match newlispDocUserKeyword "^;;\s@[a-zA-Z_-]*\s"ms=s+3,me=e-1 contained
-syn match newlispDocKeyword "^;;\s@\(module\|index\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
-syn match newlispDocKeyword "@link\s"me=e-1 contained
-syn match newlispDocItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
-syn match newlispDocMonospace "'[^']\+'"hs=s+1,he=e-1 contained
-syn match newlispDocHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|pre\|center\|li\|ul\|blockquote\)>" contained
-syn match newlispDocHTMLTag "<\(br\|hr\)\/\=>" contained
-syn match newlispDocHTMLEntity "&\w\+;" contained
+syn region newlispDocComment start="^;;\(\s\|$\)" end="^\(;;\(\s\|$\)\)\@!" contains=newlispTodo,newlispDocCommentExample,newlispDocCommentUserKeyword,newlispDocCommentKeyword,newlispDocCommentItalic,newlispDocCommentMonospace,newlispDocCommentHTMLTag,newlispDocCommentHTMLEntity,@Spell
+syn region newlispDocCommentExample matchgroup=newlispDocCommentKeyword start="^;;\s@example$"ms=s+3 matchgroup=NONE end="^\(;;\(\s\|$\)\)\@!" contained
+syn match newlispDocCommentUserKeyword "^;;\s@[a-zA-Z_-]*\s"ms=s+3,me=e-1 contained
+syn match newlispDocCommentKeyword "^;;\s@\(module\|index\|description\|location\|version\|author\|syntax\|param\|return\)\s"ms=s+3,me=e-1 contained
+syn match newlispDocCommentKeyword "@link\s"me=e-1 contained
+syn match newlispDocCommentItalic "<[^<>]\+>"hs=s+1,he=e-1 contained
+syn match newlispDocCommentMonospace "'[^']\+'"hs=s+1,he=e-1 contained
+syn match newlispDocCommentHTMLTag "<\/\=\(h1\|h2\|h3\|h4\|i\|em\|b\|tt\|p\|pre\|center\|li\|ul\|blockquote\)>" contained
+syn match newlispDocCommentHTMLTag "<\(br\|hr\)\/\=>" contained
+syn match newlispDocCommentHTMLEntity "&\w\+;" contained
 
 syn cluster newlispListContent contains=TOP,newlispRightParenError
 syn region newlispList matchgroup=newlispParenthesis start="(" end=")" contains=@newlispListContent,newlispListError
@@ -104,11 +104,11 @@ syn match newlispFloat "\<[+-]\=\d\+[Ee][+-]\=\d\+\>"
 syn match newlispFloat "\<[+-]\=\.\d\+\([Ee][+-]\=\d\+\)\=\>"
 syn match newlispFloat "\<[+-]\=\d\+\.\d*\([Ee][+-]\=\d\+\)\=\>"
 
-syn region newlispStringQuoted start=+"+ skip=+\\"+ end=+"+ contains=newlispEscapeError,newlispEscape
-syn match newlispEscapeError +\\+ contained
-syn match newlispEscape +\\["\\nrt]+ contained
-syn match newlispEscape +\\\d\d\d+ contained
-syn match newlispEscape +\\x\x\x+ contained
+syn region newlispStringQuoted start=+"+ skip=+\\"+ end=+"+ contains=newlispStringEscapeError,newlispStringEscape
+syn match newlispStringEscapeError +\\+ contained
+syn match newlispStringEscape +\\["\\nrt]+ contained
+syn match newlispStringEscape +\\\d\d\d+ contained
+syn match newlispStringEscape +\\x\x\x+ contained
 
 syn match newlispBracketError "[][}{]"
 
@@ -184,19 +184,19 @@ hi def link newlispStringTexted newlispString
 hi def link newlispLeftParenError newlispError
 hi def link newlispRightParenError newlispError
 hi def link newlispNumberError newlispError
-hi def link newlispEscapeError newlispError
+hi def link newlispStringEscapeError newlispError
 hi def link newlispBracketError newlispError
 
 hi def link newlispComment Comment
 hi def link newlispTodo Todo
 hi def link newlispDocComment Comment
-hi def link newlispDocExample Comment
-hi def link newlispDocUserKeyword Identifier
-hi def link newlispDocKeyword Type
-hi def link newlispDocItalic CommentItalic
-hi def link newlispDocMonospace CommentUnderlined
-hi def link newlispDocHTMLTag Statement
-hi def link newlispDocHTMLEntity Special
+hi def link newlispDocCommentExample Comment
+hi def link newlispDocCommentUserKeyword Identifier
+hi def link newlispDocCommentKeyword Type
+hi def link newlispDocCommentItalic CommentItalic
+hi def link newlispDocCommentMonospace CommentUnderlined
+hi def link newlispDocCommentHTMLTag Statement
+hi def link newlispDocCommentHTMLEntity Special
 hi def link newlispList Normal
 hi def link newlispParenthesis Delimiter
 hi def link newlispSymbol Identifier
@@ -206,7 +206,7 @@ hi def link newlispQuotedSymbol Type
 hi def link newlispNumber Number
 hi def link newlispFloat Float
 hi def link newlispString String
-hi def link newlispEscape Special
+hi def link newlispStringEscape Special
 hi def link newlispFunction Statement
 hi def link newlispVariable Statement
 hi def link newlispKeyword Statement
