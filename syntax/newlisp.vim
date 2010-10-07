@@ -7,7 +7,7 @@
 " Last change:  2010 Oct 07
 " newLISP site: http://www.newlisp.org/
 
-" $Id: newlisp.vim,v 1.32 2010/10/07 06:17:38 slobin Exp $
+" $Id: newlisp.vim,v 1.33 2010/10/07 22:57:05 slobin Exp $
 
 " *** Some syntax quirks of newLISP and how this file treats them: ***
 "
@@ -54,12 +54,11 @@
 "
 "     hi link newlispSymbolSpecial newlispSymbol
 "
-" * This syntax file is not compatible with Vim version 5.x and elder.
-"   Where have you dug them out? It should work with Vim 6.x, although
-"   this was not heavily tested. I use Vim 7.2 for development.
+" * This syntax file requires the Vim version 7.0 or newer. It may or
+"   may not work with the Vim 6.x, although I haven't tested this.
 "
-" * New in this version: multiple patches by LM adopted, got ready to
-"   upcoming newLISP 10.3 release
+" * New in this version: bugfixes, got in synch with newLISP 10.2.16,
+"   should be ready to upcoming newLISP 10.3 release.
 
 if exists("b:current_syntax")
   finish
@@ -115,58 +114,63 @@ syn match newlispBracketError "[][}{]"
 syn region newlispStringBraced start="{" end="}" contains=newlispStringBraced
 syn region newlispStringTexted start="\[text\]" end="\[\/text\]"
 
-" This keywords list is based on newLISP v.10.2.6 build primes.h file
+" This keywords list is based on newLISP v.10.2.16 build primes.h file
 " XXX Don't forget to remove colon ":" and escape vertical bar "|"
 
 syn keyword newlispFunction ! != $ % & * + ++ - -- / < << <= = > >= >> NaN? ^ abort abs acos acosh
 syn keyword newlispFunction add address amb and append append-file apply args array array-list
 syn keyword newlispFunction array? asin asinh assoc atan atan2 atanh atom? base64-dec base64-enc
 syn keyword newlispFunction bayes-query bayes-train begin beta betai bind binomial bits callback
-syn keyword newlispFunction case catch ceil change-dir char chop clean close command-event cond cons
-syn keyword newlispFunction constant context context? continue copy copy-file cos cosh count cpymem
-syn keyword newlispFunction crc32 crit-chi2 crit-z current-line curry date date-value debug dec
-syn keyword newlispFunction def-new default define define-macro delete delete-file delete-url
-syn keyword newlispFunction destroy det device difference directory directory? div do-until do-while
-syn keyword newlispFunction doargs dolist dostring dotimes dotree dump dump-symbol dup empty?
-syn keyword newlispFunction encrypt ends-with env erf error-event error-number error-text eval
+syn keyword newlispFunction case catch ceil change-dir char chop clean close command-event cond
+syn keyword newlispFunction cons constant context context? continue copy copy-file cos cosh count
+syn keyword newlispFunction cpymem crc32 crit-chi2 crit-z current-line curry date date-list
+syn keyword newlispFunction date-parse date-value debug dec def-new default define define-macro
+syn keyword newlispFunction delete delete-file delete-url destroy det device difference directory
+syn keyword newlispFunction directory? div do-until do-while doargs dolist dostring dotimes dotree
+syn keyword newlispFunction dump dump-symbol dup empty? encrypt ends-with env erf error-event eval
 syn keyword newlispFunction eval-string exec exists exit exp expand explode extend factor fft
 syn keyword newlispFunction file-info file? filter find find-all first flat float float? floor flt
-syn keyword newlispFunction for for-all fork format fv gammai gammaln gcd get-char get-float get-int
-syn keyword newlispFunction get-long get-string get-url global global? if if-not ifft import inc
-syn keyword newlispFunction index inf? int integer integer? intersect invert irr join lambda? last
-syn keyword newlispFunction last-error legal? length let letex letn list list? load local log lookup
-syn keyword newlispFunction lower-case macro? main-args make-dir map mat match max member min mod
-syn keyword newlispFunction mul multiply net-accept net-close net-connect net-error net-eval
-syn keyword newlispFunction net-interface net-listen net-local net-lookup net-packet net-peek
-syn keyword newlispFunction net-peer net-ping net-receive net-receive-from net-receive-udp
-syn keyword newlispFunction net-select net-send net-send-to net-send-udp net-service net-sessions
-syn keyword newlispFunction new nil? normal not now nper npv nth null? number? open or pack parse
-syn keyword newlispFunction parse-date peek pipe pmt pop pop-assoc post-url pow prefix pretty-print
-syn keyword newlispFunction primitive? print println prob-chi2 prob-z process prompt-event
-syn keyword newlispFunction protected? push put-url pv quote quote? rand random randomize read
-syn keyword newlispFunction read-buffer read-char read-expr read-file read-key read-line read-utf8
-syn keyword newlispFunction reader-event real-path receive ref ref-all regex regex-comp remove-dir
-syn keyword newlispFunction rename-file replace reset rest reverse rotate round save search seed
-syn keyword newlispFunction seek select self semaphore send sequence series set set-locale set-ref
-syn keyword newlispFunction set-ref-all setf setq sgn share signal silent sin sinh sleep slice sort
-syn keyword newlispFunction source spawn sqrt starts-with string string? sub swap sym symbol?
-syn keyword newlispFunction symbols sync sys-error sys-info tan tanh term throw throw-error time
-syn keyword newlispFunction time-of-day timer title-case trace trace-highlight transpose trim true?
-syn keyword newlispFunction unicode unify unique unless unpack until upper-case utf8 utf8len uuid
-syn keyword newlispFunction wait-pid when while write write-buffer write-char write-file write-line
-syn keyword newlispFunction xfer-event xml-error xml-parse xml-type-tags zero? \| ~
+syn keyword newlispFunction for for-all fork format fv gammai gammaln gcd get-char get-float
+syn keyword newlispFunction get-int get-long get-string get-url global global? if if-not ifft
+syn keyword newlispFunction import inc index inf? int integer integer? intersect invert irr join
+syn keyword newlispFunction lambda? last last-error legal? length let letex letn list list? load
+syn keyword newlispFunction local log lookup lower-case macro? main-args make-dir map mat match
+syn keyword newlispFunction max member min mod mul multiply net-accept net-close net-connect
+syn keyword newlispFunction net-error net-eval net-interface net-ipv net-listen net-local
+syn keyword newlispFunction net-lookup net-packet net-peek net-peer net-ping net-receive
+syn keyword newlispFunction net-receive-from net-receive-udp net-select net-send net-send-to
+syn keyword newlispFunction net-send-udp net-service net-sessions new nil? normal not now nper npv
+syn keyword newlispFunction nth null? number? open or pack parse parse-date peek pipe pmt pop
+syn keyword newlispFunction pop-assoc post-url pow prefix pretty-print primitive? print println
+syn keyword newlispFunction prob-chi2 prob-z process prompt-event protected? push put-url pv quote
+syn keyword newlispFunction quote? rand random randomize read read-buffer read-char read-expr
+syn keyword newlispFunction read-file read-key read-line read-utf8 reader-event real-path receive
+syn keyword newlispFunction ref ref-all regex regex-comp remove-dir rename-file replace reset rest
+syn keyword newlispFunction reverse rotate round save search seed seek select self semaphore send
+syn keyword newlispFunction sequence series set set-locale set-ref set-ref-all setf setq sgn share
+syn keyword newlispFunction signal silent sin sinh sleep slice sort source spawn sqrt starts-with
+syn keyword newlispFunction string string? sub swap sym symbol? symbols sync sys-error sys-info
+syn keyword newlispFunction tan tanh term throw throw-error time time-of-day timer title-case
+syn keyword newlispFunction trace trace-highlight transpose trim true? unicode unify unique unless
+syn keyword newlispFunction unpack until upper-case utf8 utf8len uuid wait-pid when while write
+syn keyword newlispFunction write-buffer write-char write-file write-line xfer-event xml-error
+syn keyword newlispFunction xml-parse xml-type-tags zero? \| ~
 
 syn keyword newlispVariable ostype $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $args $idx $it $main-args
 syn keyword newlispKeyword fn lambda
 syn keyword newlispPreloaded Class Tree module
 
-syn keyword newlispObsolete assoc-set nth-set ref-set replace-assoc set-assoc set-nth name
+" functions that became obsolete starting with newLISP 9.3 or 9.4
+syn keyword newlispObsolete replace-assoc
+syn keyword newlispObsolete set-assoc assoc-set set-nth nth-set ref-set
+syn keyword newlispObsolete name
+syn keyword newlispObsolete error-number error-text
 
-" "continue" is defined under #ifdef, not compiled in by default
-syn keyword newlispDebugging continue
+" functions that still exist but are deprecated
+syn keyword newlispDeprecated integer parse-date
 
-" "integer" is still defined in 10.2.6
-syn keyword newlispObsolete integer
+" functions that are not compiled in by default
+syn keyword newlispDebugging dump-symbol continue
 
 syn match newlispColon ":"
 syn match newlispComma ","
@@ -212,6 +216,7 @@ hi def link newlispVariable Statement
 hi def link newlispKeyword Statement
 hi def link newlispPreloaded Statement
 hi def link newlispObsolete Todo
+hi def link newlispDeprecated Todo
 hi def link newlispDebugging Todo
 hi def link newlispColon Type
 hi def link newlispComma Type
